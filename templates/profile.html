@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Profile Page{% endblock title %}
+{% block body %}
+<section id="reg_info" class="reg_info">
+    {% if registration %} 
+        <a class="btn btn-primary" href="/update_registration/{{user.id}}">Update Profile</a>
+    {% else %}
+        <a class="btn btn-primary" href="/create_registration">Create Profile</a>
+    {% endif %}
+    <div class="container">
+        <h1>My Profile</h1>
+        <h1>Username : {{user.username}}</h1>
+        {% if registration.student_id_num %}
+        <h4>Student ID : {{registration.student_id_num}} </h4>
+        {% endif %}
+        {% if registration.employee_id_num %}
+        <h4>Employee ID : {{ registration.employee_id_num }} </h4>
+        {% endif %}
+        <h4>Name : {{registration.first_name}} {{ registration.last_name }}</h4>
+        <h4>Address 1: {{registration.address_1}}</h4>
+        <h4>Address 2 : {{registration.address_2}}</h4>
+        <h4>City : {{registration.city}}  State: {{ registration.state }}            ZipCode: {{ registration.zip_code}}</h4>
+        <h4>Phone: {{ registration.phone }} 
+        <h2> Car 1 Information</h2>
+        <h4>Make:{{ registration.make1 }}   Model: {{ registration.model1 }}   Color:{{ registration.color }}</h4>
+        <h4>License Plate: {{ registration.license_plate }}
+        <h2> Car 2 Information</h2>
+        <h4>Make:{{ registration.make2 }}   Model: {{ registration.model2 }}    Color:{{ registration.color2 }}</h4>
+        <h4>License Plate: {{ registration.license2_plate }}          
+</section>        
+<section id="portfolio" class="portfolio">        
+<table class="table table-info table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Permit Type</th>
+        <th scope="col">Description</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Amount Paid</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+        {% for i  in permits %}
+
+        <tr>
+            <th scope="row"> My Permits </th>
+            <td> {{i.product_name}}</td>
+            <td>{{i.desc}} </td>
+            <td>{{i.start_date}} </td>
+            <td> {{i.end_date}}</td>
+            <td> {{i.price}}</td>
+
+
+{#            {% if j.delivered %}#}
+{#            <td><i class="fa-solid fa-circle-check"></i> Delivered</td>#}
+{#            {% else %}#}
+{#            <td> <i class="fa-solid fa-truck"></i> Not Delivered</td>#}
+{#            {% endif %}#}
+
+{##}
+{#            <td> {{j.timestamp}}</td>#}
+{#            {% endfor %}#}
+
+
+
+        {% endfor %}
+
+
+
+    </tbody>
+</table>
+    </div>
+</section>
+{% endblock body %}
