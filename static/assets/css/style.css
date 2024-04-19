@@ -20,8 +20,7 @@ h3,
 h4,
 h5,
 h6 {
-  /* font-family: "Nunito", sans-serif; */
-  font-family: cursive;
+   font-family: "Nunito", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -345,9 +344,19 @@ h6 {
 .navbar-mobile .dropdown>.dropdown-active {
   display: block;
 }
+.left{
+  float:left;
+}
 
+.clear{
+  clear:both;
+}
+li {
+    list-style-type: none;
+    display : inline;
+    }
 /*--------------------------------------------------------------
-# Hero Section
+# Hero Section - from django class
 --------------------------------------------------------------*/
 #hero {
   width: 100%;
