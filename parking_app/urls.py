@@ -6,6 +6,7 @@ from parking_app import views
 urlpatterns = [
     path('',views.index,name="index"),
     path('contact',views.contact,name="contact"),
+    path('parking_map',views.parking_map,name="parking_map"),
     path('about',views.about,name="about"),
     path('profile',views.profile,name="profile"),
     path('create_registration', views.createRegistration, name="create_registration"),

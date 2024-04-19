@@ -6,6 +6,7 @@ from math import ceil
 from parking_app import keys
 from .forms import RegistrationForm
 from django.conf import settings
+from django.http import FileResponse, Http404
 MERCHANT_KEY=keys.MK
 import json
 from django.views.decorators.csrf import  csrf_exempt
@@ -41,6 +42,11 @@ def contact(request):
         messages.info(request,"Thank you for contacting us, expect a response within 2 business days. ")
         return render(request,"contact.html")
     return render(request,"contact.html")
+def parking_map(request):
+    try:
+        return FileResponse(open("static/images/parking_map.pdf", 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404('not found')
 
 def about(request):
     return render(request,"about.html")
