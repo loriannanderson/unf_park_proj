@@ -19,11 +19,11 @@ class Registration(models.Model):
     student_id_num = models.CharField(max_length=15, blank=True, null=True)
     employee_id_num = models.CharField(max_length=15,blank=True, null=True)
     address_1 = models.CharField(max_length=40)
-    address_2 = models.CharField(max_length=40, blank=True)
+    address_2 = models.CharField(max_length=40, blank=True, null=True)
     city = models.CharField(max_length=25)
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=25)
-    phone = models.CharField(max_length=100, default="")
+    phone = models.CharField(max_length=100, default="", blank=True, null=True)
     vehicle_make = models.CharField(max_length=50, blank=True)
     vehicle_model = models.CharField(max_length=50, blank=True)
     color = models.CharField(max_length=50, blank=True)
@@ -53,7 +53,9 @@ class Product(models.Model):
 
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
-    items_json = models.CharField(max_length=5000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # items_json = models.CharField(max_length=5000) # should remove but want to still see it for now
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
     name = models.CharField(max_length=90)
     email = models.CharField(max_length=90)

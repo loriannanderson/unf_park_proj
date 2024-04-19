@@ -92,7 +92,7 @@ Home
   // $('.cart').click(function() {
   $('.divpr').on('click', 'button.cart', function() {
       var idstr = this.id.toString();
-      console.log(idstr)
+     
 
       if (cart[idstr] != undefined) {
           qty = cart[idstr][0] + 1;
@@ -102,7 +102,6 @@ Home
           name = document.getElementById('name' + idstr).innerHTML;
           price = document.getElementById('price' + idstr).innerHTML;
           cart[idstr] = [qty, name, price];
-          
       }
       updateCart(cart);
 

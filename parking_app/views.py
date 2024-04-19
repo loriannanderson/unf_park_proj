@@ -40,13 +40,10 @@ def contact(request):
         myquery.save()
         messages.info(request,"Thank you for contacting us, expect a response within 2 business days. ")
         return render(request,"contact.html")
-
-
     return render(request,"contact.html")
 
 def about(request):
     return render(request,"about.html")
-
 
 
 def checkout(request):
@@ -58,17 +55,35 @@ def checkout(request):
         items_json = request.POST.get('itemsJson', '')
         name = request.POST.get('name', '')
         amount = request.POST.get('amt')
-        # streamline orders - not necessary it's in profile.
-        Order = Orders(items_json=items_json,name=name,amount=amount, email="", address1="",address2="",city="",state="",zip_code="",phone="")
-        print(amount)
-        # TODO - don't save order items JSON - one record per permit... probably need to limit orders only one active at any time... maybe a motorcycle and a car?
-        Order.save()
-        update = OrderUpdate(order_id=Order.order_id,update_desc="the order has been placed")
-        update.save()
-        thank = True
+        email = request.POST.get('email', '')
+        address1 = request.POST.get('address1', '')
+        address2 = request.POST.get('address2','')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        zip_code = request.POST.get('zip_code', '')
+        phone = request.POST.get('phone', '')
 
-# until paypal integrated...
-# PAYMENT INTEGRATION
+        # save each permit as  separate order - so it can be displayed in profile - not as json
+        orders = json.loads(items_json)
+        permits = orders.keys() # need to know what items were ordered.
+        print(permits)
+        for permit in permits:
+            print (orders[permit])
+            product_id = int(permit.replace("pr",""))
+            print (product_id)
+            # add user to each order so they can be tracked back for my profile display
+
+            product = Product.objects.get(id=product_id)
+            permit_order = Orders(user=request.user, product=product, name=name, amount=product.price, email=email, address1=address1,
+                                   address2=address2, city=city, state=state, zip_code=zip_code, phone=phone)
+            permit_order.save()
+
+            # not sure how to handle updates  until Paypal done... so keep the code for now.
+            update = OrderUpdate(order_id=permit_order.order_id,update_desc="the order has been placed")
+            update.save()
+
+        thank = True
+# # PAYMENT INTEGRATION
 
         # id = Order.order_id
         # oid=str(id)+"ShopyCart"
@@ -84,11 +99,12 @@ def checkout(request):
         #     'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
         #
         # }
-        # # param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        # param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
         # return render(request, 'paytm.html', {'param_dict': param_dict})
 
-    return render(request, 'checkout.html')
-
+    user_profile = Registration.objects.get(user=request.user)
+    context={'profile':user_profile}
+    return render(request, 'checkout.html', context=context)
 
 @csrf_exempt
 def handlerequest(request):
@@ -126,33 +142,86 @@ def handlerequest(request):
     return render(request, 'paymentstatus.html', {'response': response_dict})
 
 def createRegistration(request):
-    # todo - connect this to something on my profile page.  lost those buttons when combined registration & profile
-    # tried crispy forms...
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        if form.is_valid():
-            reg = form.save(commit=False)
-            reg.user = request.user
-            reg.save() # create in db
-            return redirect('/home')
+        print ("create registration" )
+
+        if form.is_valid(): #TODO -
+            print("in createRegistration POST form valid")
+            if request.method == "POST":
+                myprofile = Registration(
+                user = request.user,
+                first_name = request.POST.get("first_name"),
+                last_name = request.POST.get("last_name"),
+                student_id_num = request.POST.get("student_id_num"),
+                employee_id_num = request.POST.get('employee_id_num'),
+                address_1 = request.POST.get('address_1'),
+                address_2 = request.POST.get('address_2'),
+                city = request.POST.get('city'),
+                state = request.POST.get('state'),
+                zip_code = request.POST.get('zip_code'),
+                phone = request.POST.get('phone'),
+                vehicle_make = request.POST.get('vehicle_make'),
+                vehicle_model = request.POST.get('vehicle_model'),
+                color = request.POST.get("color"),
+                license_plate = request.POST.get('license_plate'),
+                vehicle2_make = request.POST.get('vehicle2_make'),
+                vehicle2_model = request.POST.get('vehicle2_model'),
+                color2 = request.POST.get('color2'),
+                license2_plate = request.POST.get('license2_plate'),
+                )
+                myprofile.save()
+                currentuser = request.user.username
+                permits = Orders.objects.filter(email=currentuser)
+                context = {"registration": myprofile, "permits": permits}
+                return render(request, "profile.html", context)
+            # return render(request, "profile.html", context)
+
     else:
         form = RegistrationForm()
     context={'form':form}
     return render(request,'create_registration.html', context)
 
-def updateRegistration(request, ):
-    #todo IMPLEMENT -  need to get users profile and populate form if get - or save when post
+def updateRegistration(request):
+    # get users profile
+    user_reg = Registration.objects.get(user=request.user)
+
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        if form.is_valid():
-            reg = form.save(commit=False)
-            reg.user = request.user
-            reg.save() # create in db
-            return redirect('/home')
-        else:
-            form = RegistrationForm()
-    context={'form':form}
-    return render(request,'create_registration.html', context)
+        print ("update registration" )
+
+        if form.is_valid(): #TODO -
+            print("in createRegistration POST form valid")
+            if request.method == "POST":
+                user_reg.first_name = request.POST.get("first_name")
+                user_reg.last_name = request.POST.get("last_name")
+                user_reg.student_id_num = request.POST.get("student_id_num")
+                user_reg.employee_id_num = request.POST.get('employee_id_num')
+                user_reg.address_1 = request.POST.get('address_1')
+                user_reg.address_2 = request.POST.get('address_2')
+                user_reg.city = request.POST.get('city')
+                user_reg.state = request.POST.get('state')
+                user_reg.zip_code = request.POST.get('zip_code')
+                user_reg.phone = request.POST.get('phone')
+                user_reg.vehicle_make = request.POST.get('vehicle_make')
+                user_reg.vehicle_model = request.POST.get('vehicle_model')
+                user_reg.color = request.POST.get("color")
+                user_reg.license_plate = request.POST.get('license_plate')
+                user_reg.vehicle2_make = request.POST.get('vehicle2_make')
+                user_reg.vehicle2_model = request.POST.get('vehicle2_model')
+                user_reg.color2 = request.POST.get('color2')
+                user_reg.license2_plate = request.POST.get('license2_plate')
+
+                user_reg.save()
+
+                currentuser = request.user.username
+                permits = Orders.objects.filter(email=currentuser)
+                context = {"registration": user_reg, "permits": permits}
+                return render(request, "profile.html", context)
+            # return render(request,"profile.html",context)
+
+    context={'form':user_reg}
+    return render(request,'update_registration.html', context)
 
 def profile(request):
     if not request.user.is_authenticated:
@@ -163,11 +232,7 @@ def profile(request):
     registration = Registration.objects.filter(user=request.user).first()
     print(registration)
     currentuser=request.user.username
-    permits=Orders.objects.filter(email=currentuser)
+    permits=Orders.objects.filter(user=request.user)
 
-
-
-    # context ={"items":items,"status":status}
     context = {"registration":registration,"permits":permits}
-    # print(currentuser)
     return render(request,"profile.html",context)

@@ -4,7 +4,7 @@ Check Out
 {% endblock title %} 
 {% block content %}
 
-<h1>Welcome to UNF PARKING</h1>
+<h1>Parking Permit Checkout</h1>
 
 {% endblock content %} 
 {% block body %} 
@@ -47,14 +47,11 @@ Check Out
        
                    <nav aria-label="breadcrumb">
          <ol class="breadcrumb mt-3">
-           <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>$ <span id="totalprice"></span> <span id="amount"></span></b>. Enter your details below & place your order.</li>
+           <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>$  <span id="totalprice"></span> <span id="amount"></span></b>. Enter your details below & place your order. Thank You for shopping with UNF</li>
            <li</li>
          </ol>
        </nav>
-       
-       
-       
-                   
+  
                </div>
            </div>
            <div class="col my-4">
@@ -66,7 +63,7 @@ Check Out
                    <div class="form-row">
                        <div class="form-group col-md-6">
                            <label for="inputname">Name</label>
-                           <input type="text" class="form-control mt-3" id="name" name="name" placeholder="Name" required>
+                           <input type="text" class="form-control mt-3" id="name" name="name" placeholder="Name" value="{{ profile.first_name}} {{ profile.last_name }}" required>
                        </div>
                        <div class="form-group col-md-6">
                            <label for="inputEmail4">Email</label>
@@ -77,11 +74,11 @@ Check Out
                     <div class="form-row">
                    <div class="form-group col-md-6">
                        <label for="inputAddress">Address</label>
-                       <input type="text" class="form-control mt-3" id="address1" name="address1" placeholder="1234 Main St" required>
+                       <input type="text" class="form-control mt-3" id="address1" name="address1" placeholder="1234 Main St" value="{{profile.address_1}}" required>
                    </div>
                    <div class="form-group col-md-6">
                        <label for="inputAddress">Address line 2</label>
-                       <input type="text" class="form-control mt-3" id="address2" name="address2" placeholder="1234 Main St" required>
+                       <input type="text" class="form-control mt-3" id="address2" name="address2" placeholder="1234 Main St" value="{{ profile.address_2 }}" >
                    </div>
                    </div>
        
@@ -90,22 +87,22 @@ Check Out
                    <div class="form-row">
                        <div class="form-group col-md-6">
                            <label for="inputCity">City</label>
-                           <input type="text" class="form-control mt-3" id="city" name="city" required>
+                           <input type="text" class="form-control mt-3" id="city" name="city" value="{{ profile.city }}" required>
                        </div>
                        <div class="form-group col-md-6">
                            <label for="inputState">State</label>
-                           <input type="text" class="form-control mt-3" id="state" name="state"  placeholder="Enter State" required>
+                           <input type="text" class="form-control mt-3" id="state" name="state"  placeholder="Enter State" value="{{ profile.state }}"required>
                        </div>
                        </div>
                      
                     <div class="form-row">
                     <div class="form-group col-md-6">
-                           <label for="inputZip">Pin Code</label>
-                           <input type="number" class="form-control mt-3" id="zip_code" name="zip_code" required>
+                           <label for="inputZip">Zip Code</label>
+                           <input type="number" class="form-control mt-3" id="zip_code" name="zip_code" value="{{ profile.zip_code }}" required>
                        </div>
                    <div class="form-group col-md-6">
                        <label for="inputZip">Phone Number</label>
-                       <input type="number" class="form-control mt-3" id="phone" name="phone" required>
+                       <input type="number" class="form-control mt-3" id="phone" name="phone" value="{{ profile.phone }}" required>
                    </div>
                    <br>
                

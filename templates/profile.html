@@ -3,7 +3,7 @@
 {% block body %}
 <section id="reg_info" class="reg_info">
     {% if registration %} 
-        <a class="btn btn-primary" href="/update_registration/{{user.id}}">Update Profile</a>
+        <a class="btn btn-primary" href="/update_registration">Update Profile</a>
     {% else %}
         <a class="btn btn-primary" href="/create_registration">Create Profile</a>
     {% endif %}
@@ -32,7 +32,7 @@
 <table class="table table-info table-striped">
     <thead>
       <tr>
-        <th scope="col">Permit Type</th>
+        <th scope="col">Permit</th>
         <th scope="col">Description</th>
         <th scope="col">Start Date</th>
         <th scope="col">End Date</th>
@@ -45,12 +45,12 @@
         {% for i  in permits %}
 
         <tr>
-            <th scope="row"> My Permits </th>
-            <td> {{i.product_name}}</td>
-            <td>{{i.desc}} </td>
-            <td>{{i.start_date}} </td>
-            <td> {{i.end_date}}</td>
-            <td> {{i.price}}</td>
+
+            <td> {{i.product.product_name}}</td>
+            <td>{{i.product.desc}} </td>
+            <td>{{i.product.start_date}} </td>
+            <td> {{i.product.end_date}}</td>
+            <td> {{i.product.price}}</td>
 
 
 {#            {% if j.delivered %}#}

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}My Profile{% endblock title %}
 {% block body %}
-<h1 class="text-center">My Profile </h1>
 
 <div class="container mt-2">
     {% for message in messages %}
@@ -12,85 +11,85 @@
     </div>
     {% endfor %}
 <div class="row">
-
+<h1> {{ form }}</h1>
     <div class="col-md-4"></div>
     <div class="col-md-4">
 
-        <form action="/create_registration" method="post">
+        <form action="/update_registration" method="post">
           {% csrf_token %}
           <br />
       
           <div class="form-group">
             <label for="first_name">First Name:</label>
-            <input name="first_name" id="first_name" />
+            <input name="first_name" id="first_name" value={{ form.first_name|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="last_name">Last Name:</label>
-            <input name="last_name" id="last_name" />
+            <input name="last_name" id="last_name" value={{ form.last_name|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="student_id_num">Student ID:</label>
-            <input name="student_id_num" id="student_id_num" />
+            <input name="student_id_num" id="student_id_num" value={{ form.student_id_num|default_if_none:"" }} />
           </div>            
           <div class="form-group">
             <label for="empolyee_id_num">Employee ID:</label>
-            <input name="empolyee_id_num" id="empolyee_id_num" />
+            <input name="empolyee_id_num" id="empolyee_id_num" value={{ form.employee_id_num|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="address_1">Address:</label>
-            <input name="address_1" id="address_1" />
+            <input name="address_1" id="address_1" value={{ form.address_1|default_if_none:"" }} />
           </div>            
           <div class="form-group">
             <label for="address_2">Address 2:</label>
-            <input name="address_2" id="address_2" />
+            <input name="address_2" id="address_2" value={{ form.address_2|default_if_none:"--" }} />
           </div>
           <div class="form-group">
             <label for="city">City:</label>
-            <input name="city" id="city" />
+            <input name="city" id="city" value={{ form.city|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="state"> State:</label>
-            <input name="state" id="state" />
+            <input name="state" id="state" value={{ form.state|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="zip_code"> Zip Code:</label>
-            <input name="zip_code" id="zip_code" />
+            <input name="zip_code" id="zip_code" value={{ form.zip_code|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="phone"> Phone:</label>
-            <input name="phone" id="phone" />
+            <input name="phone" id="phone" value={{ form.phone|default_if_none:"" }} />
           </div>            
           <div class="form-group">
             <label for="vehicle_make"> Vehicle 1 Make:</label>
-            <input name="vehicle_make" id="vehicle_make" />
+            <input name="vehicle_make" id="vehicle_make" value={{ form.vehicle_make|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="vehicle_model">Vehicle 1 Model :</label>
-            <input name="vehicle_model" id="vehicle_model" />
+            <input name="vehicle_model" id="vehicle_model" value={{ form.vehicle_model|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for=color">Vehicle 1 Color:</label>
-            <input name="color" id="color" />
+            <input name="color" id="color" value={{ form.color|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="license_plate">Vehicle 1 License Plate:</label>
-            <input name="license_plate" id="license_plate" />
+            <input name="license_plate" id="license_plate" value={{ form.license_plate|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="vehicle2_make"> Vehicle 2 Make:</label>
-            <input name="vehicle2_make" id="vehicle2_make" />
+            <input name="vehicle2_make" id="vehicle2_make" value={{ form.vehicle2_make|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="vehicle2_model">Vehicle 2 Model :</label>
-            <input name="vehicle2_model" id="vehicle2_model" />
+            <input name="vehicle2_model" id="vehicle2_model" value={{ form.vehicle2_model|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for=color2">Vehicle 2 Color:</label>
-            <input name="color2" id="color2" />
+            <input name="color2" id="color2" value={{ form.color2|default_if_none:"" }} />
           </div>
           <div class="form-group">
             <label for="license2_plate">Vehicle 2 License Plate:</label>
-            <input name="license2_plate" id="license2_plate" />
+            <input name="license2_plate" id="license2_plate" value={{ form.license2_plate|default_if_none:"" }} />
           </div>         
           <button type="submit" class="btn btn-dark">Submit</button>  
           <br />
