@@ -12,5 +12,8 @@ urlpatterns = [
     path('create_registration', views.createRegistration, name="create_registration"),
     path('update_registration', views.updateRegistration, name="update_registration"),
     path('checkout/', views.checkout, name="Checkout"),
-    path('handlerequest/', views.handlerequest, name="HandleRequest")
+    path('handlerequest/', views.handlerequest, name="HandleRequest"),
+    path('paypalcheckout/', views.paypalcheckout, name="PaypalCheckout"),
+    path('payment-success/<int:product_id>/', views.PaymentSuccessful, name='payment-success'),
+    path('payment-failed/<int:product_id>/', views.paymentFailed, name='payment-failed'),
 ]

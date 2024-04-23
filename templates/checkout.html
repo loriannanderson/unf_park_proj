@@ -41,18 +41,16 @@ Check Out
                <h2>Step 1 - Review Your Cart Items</h2>
                <div class="my-4">
                    <ul class="list-group" id="items">
-
-                    
                    </ul>
-       
                    <nav aria-label="breadcrumb">
          <ol class="breadcrumb mt-3">
            <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>$  <span id="totalprice"></span> <span id="amount"></span></b>. Enter your details below & place your order. Thank You for shopping with UNF</li>
            <li</li>
          </ol>
        </nav>
-  
-               </div>
+
+
+           </div>
            </div>
            <div class="col my-4">
                <h2>Step 2 - Enter Address & Other Details:</h2>
@@ -105,8 +103,16 @@ Check Out
                        <input type="number" class="form-control mt-3" id="phone" name="phone" value="{{ profile.phone }}" required>
                    </div>
                    <br>
-               
-                   
+                        <div class="product-container">
+        <div class="products">
+{#            <img class="img" src="{{product.image}}" alt="">#}
+{#            <p>{{product.name}}</p>#}
+{#            <p>Price: $ {{product.price}}</p>#}
+{#            <p>Description: {{product.description}}</p>#}
+            <!-- <button>Purchase</button> -->
+            {{paypal.render}}
+        </div>
+      </div>
                    <button id="btn" type="submit" class="btn btn-success btn-sm btn-block col-md-4">Place Order</button>
                </form>
            </div>

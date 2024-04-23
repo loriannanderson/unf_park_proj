@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'parking_app',
     'authcart',
+    'paypal.standard.ipn',
     ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -153,3 +154,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# PAYPAL_RECEIVER_EMAIL = 'nandersonunfpark@gmail.com' # receiver of payments
+PAYPAL_RECEIVER_EMAIL = 'parkunf@business.example.com'  # receiver of payments
+PAYPAL_TEST = True #don't really accept money -

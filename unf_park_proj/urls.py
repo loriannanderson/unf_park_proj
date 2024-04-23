@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('parking_app.urls')),
     path('auth/',include('authcart.urls')),
+    path('',include('paypal.standard.ipn.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,6 +11,10 @@ MERCHANT_KEY=keys.MK
 import json
 from django.views.decorators.csrf import  csrf_exempt
 # from PayTm import Checksum
+from paypal.standard.forms import PayPalPaymentsForm
+import uuid
+from django.urls import reverse
+
 
 # Create your views here.
 def index(request):
@@ -56,7 +60,7 @@ def checkout(request):
     if not request.user.is_authenticated:
         messages.warning(request,"Login & Try Again")
         return redirect('/auth/login')
-
+    user_profile = Registration.objects.get(user=request.user)
     if request.method=="POST":
         items_json = request.POST.get('itemsJson', '')
         name = request.POST.get('name', '')
@@ -89,27 +93,34 @@ def checkout(request):
             update.save()
 
         thank = True
-# # PAYMENT INTEGRATION
+        product = Product.objects.get(id=product_id)
 
-        # id = Order.order_id
-        # oid=str(id)+"ShopyCart"
-        # param_dict = {
-        #
-        #     'MID':keys.MID,
-        #     'ORDER_ID': oid,
-        #     'TXN_AMOUNT': str(amount),
-        #     'CUST_ID': email,
-        #     'INDUSTRY_TYPE_ID': 'Retail',
-        #     'WEBSITE': 'WEBSTAGING',
-        #     'CHANNEL_ID': 'WEB',
-        #     'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
-        #
-        # }
-        # param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        # return render(request, 'paytm.html', {'param_dict': param_dict})
+        host = request.get_host()
 
-    user_profile = Registration.objects.get(user=request.user)
-    context={'profile':user_profile}
+        paypal_checkout = {
+            'business': settings.PAYPAL_RECEIVER_EMAIL,
+            'amount': amount,
+            'item_name': items_json,
+            'invoice': uuid.uuid4(),
+            'currency_code': 'USD',
+            'notify_url': f"http://{host}{reverse('paypal-ipn')}",
+            'return_url': f"http://{host}{reverse('payment-success', kwargs={'product_id': product.id})}",
+            'cancel_url': f"http://{host}{reverse('payment-failed', kwargs={'product_id': product.id})}",
+        }
+
+        paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+
+        context = {
+            'amount':amount,
+            'product': items_json,
+            'paypal': paypal_payment
+        }
+
+        return render(request, 'paypalCheckout.html', context=context)
+
+
+    context={'profile':user_profile,
+             }
     return render(request, 'checkout.html', context=context)
 
 @csrf_exempt
@@ -242,3 +253,41 @@ def profile(request):
 
     context = {"registration":registration,"permits":permits}
     return render(request,"profile.html",context)
+
+def paypalcheckout(request, paydata):
+
+    # product = Product.objects.get(id=product_id)
+
+    host = request.get_host()
+
+    paypal_checkout = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': product.price,
+        'item_name': product.name,
+        'invoice': uuid.uuid4(),
+        'currency_code': 'USD',
+        'notify_url': f"http://{host}{reverse('paypal-ipn')}",
+        'return_url': f"http://{host}{reverse('payment-success', kwargs = {'product_id': product.id})}",
+        'cancel_url': f"http://{host}{reverse('payment-failed', kwargs = {'product_id': product.id})}",
+    }
+
+    paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+
+    context = {
+        'product': product,
+        'paypal': paypal_payment
+    }
+
+    return render(request, 'checkout.html', context)
+#
+def PaymentSuccessful(request, product_id):
+
+    product = Product.objects.get(id=product_id)
+
+    return render(request, 'payment-success.html', {'product': product})
+
+def paymentFailed(request, product_id):
+
+    product = Product.objects.get(id=product_id)
+
+    return render(request, 'payment-failed.html', {'product': product})
