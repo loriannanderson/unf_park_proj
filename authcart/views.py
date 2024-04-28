@@ -103,7 +103,7 @@ class RequestResetEmailView(View):
             message=render_to_string('reset-user-password.html',{
                 'domain':'167.172.237.157:8001',
                 'uid':urlsafe_base64_encode(force_bytes(user[0].pk)),
-                'token':PasswordResetTokenGenerator().make_token(user[0])git 
+                'token':PasswordResetTokenGenerator().make_token(user[0])
             })
 
             # email_message=EmailMessage(email_subject,message,settings.EMAIL_HOST_USER,[email])
