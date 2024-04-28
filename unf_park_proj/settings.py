@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!or5y_3)x*+t8($+&7_dei)kc_g=9v03@($ef8%-9y2%sh$h8%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['167.172.237.157',]
 
 
 # Application definition
@@ -77,6 +77,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'unf_park_proj.wsgi.application'
 
+
+APP_NAME = os.environ.get("FLY_APP_NAME"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
