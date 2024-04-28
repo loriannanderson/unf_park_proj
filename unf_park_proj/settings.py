@@ -78,8 +78,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'unf_park_proj.wsgi.application'
 
 
-APP_NAME = os.environ.get("FLY_APP_NAME"
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
